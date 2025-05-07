@@ -1,34 +1,30 @@
 {
     "name": "CyclePulse Dev Environment",
     "build": {
-        "dockerfile": "Dockerfile",
-        "context": ".."
-    },
-    "features": {
-        "ghcr.io/devcontainers/features/node:1": {},
-        "ghcr.io/devcontainers/features/git:1": {}
+      "dockerfile": "Dockerfile",
+      "context": ".."
     },
     "forwardPorts": [5000, 3000, 5432],
-    "postCreateCommand": "bash -c '/etc/init.d/postgresql start && sleep 5 && cd backend && npm install && npm run dev & cd frontend && npm install && npm start'",
+    "postCreateCommand": "bash -c '/etc/init.d/postgresql start && sleep 5 && cd /workspaces/Road-Riders/backend && npm install && npm run dev & cd /workspaces/Road-Riders/frontend && npm install && npm start'",
     "customizations": {
-        "vscode": {
-            "extensions": [
-                "dbaeumer.vscode-eslint",
-                "esbenp.prettier-vscode",
-                "ms-vscode.vscode-typescript-next",
-                "chris-nada.postgresql",
-                "formulahendry.auto-rename-tag",
-                "formulahendry.auto-close-tag"
-            ],
-            "settings": {
-                "editor.formatOnSave": true,
-                "editor.defaultFormatter": "esbenp.prettier-vscode",
-                "terminal.integrated.defaultProfile.linux": "bash"
-            }
+      "vscode": {
+        "extensions": [
+          "dbaeumer.vscode-eslint",
+          "esbenp.prettier-vscode",
+          "ms-vscode.vscode-typescript-next",
+          "chris-nada.postgresql",
+          "formulahendry.auto-rename-tag",
+          "formulahendry.auto-close-tag"
+        ],
+        "settings": {
+          "editor.formatOnSave": true,
+          "editor.defaultFormatter": null,
+          "terminal.integrated.defaultProfile.linux": "bash"
         }
+      }
     },
     "runArgs": ["--env-file", "backend/.env"],
     "mounts": [
-        "source=cyclepulse-postgres-data,target=/var/lib/postgresql/data,type=volume"
+      "source=cyclepulse-postgres-data,target=/var/lib/postgresql/14/main,type=volume"
     ]
-}
+  }

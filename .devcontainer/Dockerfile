@@ -1,38 +1,35 @@
+# Usa la imagen base oficial de Codespaces con Node.js
 FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:0-18
 
-# Instalar PostgreSQL, PostGIS y dependencias
-RUN apt-get update && apt-get install -y \
-    postgresql \
-    postgresql-contrib \
-    postgis \
-    postgresql-14-postgis-3 \
-    && rm -rf /var/lib/apt/lists/*
+# Instala PostgreSQL y dependencias en una sola línea
+RUN apt-get update && apt-get install -y postgresql postgresql-contrib postgis postgresql-14-postgis-3 && rm -rf /var/lib/apt/lists/*
 
-# Configurar PostgreSQL
+# Configura PostgreSQL como usuario postgres
 USER postgres
 RUN /etc/init.d/postgresql start && \
     psql --command "CREATE USER cyclepulse WITH PASSWORD 'cyclepulse';" && \
     psql --command "CREATE DATABASE cyclepulse OWNER cyclepulse;" && \
     psql --command "CREATE EXTENSION postgis;" -d cyclepulse
 
+# Regresa a usuario root para el resto
 USER root
 
-# Instalar herramientas globales
+# Instala herramientas globales
 RUN npm install -g concurrently
 
-# Configurar directorio de trabajo
+# Establece el directorio de trabajo
 WORKDIR /workspaces/Road-Riders
 
-# Copiar dependencias del backend y frontend
+# Copia los archivos de dependencias
 COPY backend/package.json backend/package-lock.json ./backend/
 COPY frontend/package.json frontend/package-lock.json ./frontend/
 
-# Instalar dependencias
+# Instala dependencias
 RUN cd backend && npm install
 RUN cd frontend && npm install
 
-# Copiar el resto del código
+# Copia el resto del código
 COPY . .
 
-# Exponer puertos
+# Expone los puertos
 EXPOSE 5000 3000
