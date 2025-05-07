@@ -1,5 +1,5 @@
 {
-    "name": "CyclePulse Dev Environment",
+    "name": "Road Riders Dev Environment",
     "build": {
       "dockerfile": "Dockerfile",
       "context": ".."
@@ -25,6 +25,6 @@
     },
     "runArgs": ["--env-file", "backend/.env"],
     "mounts": [
-      "source=cyclepulse-postgres-data,target=/var/lib/postgresql/14/main,type=volume"
+      "source=Road-Riders-postgres-data,target=/var/lib/postgresql/14/main,type=volume"
     ]
   }

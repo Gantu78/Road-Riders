@@ -7,8 +7,8 @@ RUN apt-get update && apt-get install -y postgresql postgresql-contrib postgis p
 # Configura PostgreSQL como usuario postgres
 USER postgres
 RUN /etc/init.d/postgresql start && \
-    psql --command "CREATE USER cyclepulse WITH PASSWORD 'cyclepulse';" && \
-    psql --command "CREATE DATABASE cyclepulse OWNER cyclepulse;" && \
+    psql --command "CREATE USER Road-Riders WITH PASSWORD 'road-riders';" && \
+    psql --command "CREATE DATABASE Road-Riders OWNER Road-Riders;" && \
     psql --command "CREATE EXTENSION postgis;" -d cyclepulse
 
 # Regresa a usuario root para el resto
