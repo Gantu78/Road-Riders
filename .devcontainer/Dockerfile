@@ -2,6 +2,7 @@
 FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:0-18
 
 # Instala PostgreSQL y dependencias en una sola línea
+RUN apt-get update && apt-get install -y nodejs npm
 RUN apt-get update && apt-get install -y postgresql postgresql-contrib postgis postgresql-14-postgis-3 && rm -rf /var/lib/apt/lists/*
 
 # Configura PostgreSQL como usuario postgres

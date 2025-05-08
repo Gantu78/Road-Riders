@@ -1,9 +1,9 @@
 {
-    "name": "Road Riders Dev Environment",
-    "build": {
-      "dockerfile": "Dockerfile",
-      "context": ".."
-    },
+	  "image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:0-18",
+	  "features": {
+		"ghcr.io/itsmechlark/features/postgresql:1": {},
+		"ghcr.io/devcontainers-extra/features/jshint:2": {}
+	},
     "forwardPorts": [5000, 3000, 5432],
     "postCreateCommand": "bash -c '/etc/init.d/postgresql start && sleep 5 && cd /workspaces/Road-Riders/backend && npm install && npm run dev & cd /workspaces/Road-Riders/frontend && npm install && npm start'",
     "customizations": {
