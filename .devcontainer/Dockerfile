@@ -6,16 +6,20 @@ RUN apt-get update && apt-get install -y nodejs npm
 RUN apt-get update && apt-get install -y postgresql postgresql-contrib postgis postgresql-14-postgis-3 && rm -rf /var/lib/apt/lists/*
 
 # Configura PostgreSQL como usuario postgres
+# Configura PostgreSQL
 USER postgres
-RUN /etc/init.d/postgresql start && \
-    psql --command "CREATE USER Road-Riders WITH PASSWORD 'road-riders';" && \
-    psql --command "CREATE DATABASE Road-Riders OWNER Road-Riders;" && \
-    psql --command "CREATE EXTENSION postgis;" -d cyclepulse
 
-# Regresa a usuario root para el resto
+# Inicia PostgreSQL, crea usuario, base de datos y configura autenticación
+RUN /etc/init.d/postgresql start && \
+    psql --command "CREATE USER road_riders WITH PASSWORD 'road';" && \
+    psql --command "CREATE DATABASE road_riders OWNER road_riders;" && \
+    psql --command "CREATE EXTENSION postgis;" -d road_riders && \
+    echo "host all all all md5" >> /etc/postgresql/14/main/pg_hba.conf && \
+    echo "listen_addresses='*'" >> /etc/postgresql/14/main/postgresql.conf
+
 USER root
 
-# Instala herramientas globales
+# Instala herramientas globales de Node.js
 RUN npm install -g concurrently
 
 # Establece el directorio de trabajo
